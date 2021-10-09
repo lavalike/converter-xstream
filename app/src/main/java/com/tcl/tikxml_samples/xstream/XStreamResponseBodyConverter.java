@@ -27,6 +27,6 @@ public class XStreamResponseBodyConverter<T> implements Converter<ResponseBody, 
     @Override
     public T convert(@NonNull ResponseBody value) throws IOException {
         Object o = xstream.fromXML(value.byteStream());
-        return null;
+        return (T) o;
     }
 }

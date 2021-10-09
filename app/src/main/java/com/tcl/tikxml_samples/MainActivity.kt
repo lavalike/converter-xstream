@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tcl.tikxml_samples.api.ApiService
-import com.tcl.tikxml_samples.entity.MobileInfoResponse
 import com.tcl.tikxml_samples.xstream.XStreamConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,22 +22,22 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(XStreamConverterFactory.create()).build()
             .create(ApiService::class.java)
 
-        findViewById<Button>(R.id.btn_request).setOnClickListener {
+        findViewById<Button>(R.id.btn_mobile_info).setOnClickListener {
             api.mobileInfo("http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx/getMobileCodeInfo?mobileCode=18368865748&userID=")
-                .enqueue(object : Callback<MobileInfoResponse> {
+                .enqueue(object : Callback<String> {
                     override fun onResponse(
-                        call: Call<MobileInfoResponse>,
-                        response: Response<MobileInfoResponse>
+                        call: Call<String>,
+                        response: Response<String>
                     ) {
                         Toast.makeText(
                             this@MainActivity,
-                            response.body()?.toString(),
+                            response.body(),
                             Toast.LENGTH_SHORT
                         )
                             .show()
                     }
 
-                    override fun onFailure(call: Call<MobileInfoResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
                         Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_SHORT).show()
                     }
                 })
