@@ -3,6 +3,9 @@ package com.tcl.tikxml_samples.xstream;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
@@ -16,6 +19,8 @@ import retrofit2.Retrofit;
  * Created by wangzhen on 2021/10/9
  */
 public class XStreamConverterFactory extends Converter.Factory {
+    XStream xstream = new XStream(new StaxDriver());
+
     public static XStreamConverterFactory create() {
         return new XStreamConverterFactory();
     }
@@ -26,7 +31,7 @@ public class XStreamConverterFactory extends Converter.Factory {
         if (!(type instanceof Class)) {
             return null;
         }
-        return super.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
+        return new XStreamRequestBodyConverter<>(xstream);
     }
 
     @Nullable
@@ -36,6 +41,6 @@ public class XStreamConverterFactory extends Converter.Factory {
             return null;
         }
         Class<?> cls = (Class<?>) type;
-        return super.responseBodyConverter(type, annotations, retrofit);
+        return new XStreamResponseBodyConverter<>(cls, xstream);
     }
 }
