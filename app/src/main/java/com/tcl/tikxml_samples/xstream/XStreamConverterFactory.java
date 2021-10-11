@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
  * Created by wangzhen on 2021/10/9
  */
 public class XStreamConverterFactory extends Converter.Factory {
-    XStream xstream = new XStream();
+    final XStream xstream = XStreamConfig.getInstance().xstream();
 
     public static XStreamConverterFactory create() {
         return new XStreamConverterFactory();
